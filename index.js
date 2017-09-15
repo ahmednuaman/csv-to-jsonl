@@ -7,7 +7,7 @@ const path = require('path')
 const transform = require('stream-transform')
 
 async.parallel(argv._.map((file) => (done) => {
-  const name = path.basename(file)
+  const filename = path.basename(file)
 
   const input = fs.createReadStream(file)
   const output = fs.createWriteStream(`${file}.jsonl`)
@@ -19,13 +19,17 @@ async.parallel(argv._.map((file) => (done) => {
     skip_empty_lines: true,
     trim: true
   })
-  const transformer = transform((row, done) => done(`${JSON.stringify(row)}\n`), {
+
+  const transformer = transform((row, done) => done(null, `${JSON.stringify(row)}\n`), {
     parallel: 10
   })
 
-  console.log(colors.yellow(`⏳ Transforming ${name}`))
+  console.log(colors.yellow(`Transforming ${filename} => ${filename}.jsonl ⏳`))
 
-  output.on('close', () => console.log(colors.green(`✅ Successfully transformed ${name}`)))
+  output.on('close', () => {
+    console.log(colors.green(`Successfully transformed ${filename} ✅`))
+    done(null, file)
+  })
 
   input
     .pipe(parser)
@@ -35,6 +39,6 @@ async.parallel(argv._.map((file) => (done) => {
   if (error) {
     console.log(colors.red(error))
   } else {
-    console.log(colors.bold.green(`✨ Successfully converted ${results.length} files! ✨`))
+    console.log(colors.bold.green(`Successfully converted ${results.length} files! ✨`))
   }
 })
