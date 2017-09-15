@@ -1,5 +1,8 @@
 {
   "author": "Ahmed Nuaman (ahmed@ahmednuaman.com)",
+  "bin": {
+    "csv-to-jsonl": "./index.js"
+  },
   "bugs": {
     "url": "https://github.com/ahmednuaman/csv-to-jsonl/issues"
   },

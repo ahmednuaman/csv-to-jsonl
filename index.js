@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const { argv } = require('yargs')
 const async = require('async')
 const colors = require('colors')
