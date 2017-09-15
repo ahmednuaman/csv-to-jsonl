@@ -1,0 +1,34 @@
+{
+  "author": "Ahmed Nuaman (ahmed@ahmednuaman.com)",
+  "bugs": {
+    "url": "https://github.com/ahmednuaman/csv-to-jsonl/issues"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "colors": "^1.1.2",
+    "csv": "^1.1.1",
+    "stream-transform": "^0.1.2",
+    "yargs": "^8.0.2"
+  },
+  "description": "A simple node CLI to convert CSV to JSONL (for services like Athena)",
+  "engines": {
+    "node": ">=6.11.3"
+  },
+  "homepage": "https://github.com/ahmednuaman/csv-to-jsonl#readme",
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "csv-to-jsonl",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmednuaman/csv-to-jsonl.git"
+  },
+  "scripts": {
+    "test": "standard --fix --verbose | snazzy"
+  },
+  "version": "1.0.0",
+  "devDependencies": {
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3"
+  }
+}
