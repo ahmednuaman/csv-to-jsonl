@@ -10,6 +10,7 @@
     "async": "^2.5.0",
     "colors": "^1.1.2",
     "csv": "^1.1.1",
+    "lodash": "^4.17.4",
     "stream-transform": "^0.1.2",
     "yargs": "^8.0.2"
   },
@@ -34,5 +35,5 @@
   "scripts": {
     "test": "standard --fix --verbose | snazzy"
   },
-  "version": "1.0.1"
+  "version": "2.0.0"
 }

@@ -1,18 +1,34 @@
 #!/usr/bin/env node
 
-const { argv } = require('yargs')
+const _ = require('lodash')
 const async = require('async')
 const colors = require('colors')
 const csv = require('csv')
 const fs = require('fs')
 const path = require('path')
 const transform = require('stream-transform')
+const yargs = require('yargs')
+
+const argv =
+  yargs
+    .option('extension', {
+      alias: 'e',
+      default: '.jsonl'
+    })
+    .option('sanitise', {
+      alias: ['s', 'sanitize'],
+      default: true,
+      type: 'boolean'
+    })
+    .argv
+
+const sanitise = (row) => argv.sanitise ? _.mapKeys(row, (v, k) => _.snakeCase(k)) : row
 
 async.parallel(argv._.map((file) => (done) => {
   const filename = path.basename(file)
 
   const input = fs.createReadStream(file)
-  const output = fs.createWriteStream(`${file}.jsonl`)
+  const output = fs.createWriteStream(`${file}.${argv.extension}`)
 
   const parser = csv.parse({
     auto_parse: true,
@@ -22,11 +38,11 @@ async.parallel(argv._.map((file) => (done) => {
     trim: true
   })
 
-  const transformer = transform((row, done) => done(null, `${JSON.stringify(row)}\n`), {
+  const transformer = transform((row, done) => done(null, `${JSON.stringify(sanitise(row))}\n`), {
     parallel: 10
   })
 
-  console.log(colors.yellow(`Transforming ${filename} => ${filename}.jsonl ⏳`))
+  console.log(colors.yellow(`Transforming ${filename} => ${filename}.${argv.extension} ⏳`))
 
   output.on('close', () => {
     console.log(colors.green(`Successfully transformed ${filename} ✅`))
